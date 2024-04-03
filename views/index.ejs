@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> World Chat Game </title>
+    <link rel="stylesheet" href="../style.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+        $(document).ready(() => {
+            var socket = io();
+
+            socket.on('user_login',(id) => {
+                $('#contents').append('<p> SocketID ' + id + ' is present.');
+            });
+            socket.on('user_left',(id) => {
+                $('#contents').append('<p> SocketID ' + id + ' left.');
+            });
+            $('#raise-hand').click(() => {
+                console.log('Someone raised hand!');
+                socket.emit('raise_hand');
+            });
+            socket.on('someone_raised_hand',(id) => {
+                $('#contents').append('<p> SocketID ' + id + ' raised hand!');
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="raise-hand"> Raise Hand </button>
+    <div id="contents">
+        
+    </div>
+</body>
+</html>
